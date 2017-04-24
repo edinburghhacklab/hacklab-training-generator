@@ -1,0 +1,35 @@
+\documentclass[a5paper]{article}
+\usepackage[top=1cm,left=1cm,right=1cm,bottom=1.8cm]{geometry}
+\usepackage{ltablex}
+\keepXColumns
+\renewcommand{\familydefault}{phv}
+\begin{document}
+\noindent
+\textbf{Edinburgh Hacklab Training Card} \\
+\\
+\begin{tabularx}{\textwidth}{|l|l|X|}
+\hline
+\textit{Syllabus} & \textit{Version} & \textit{Trainee Name} \\
+\hline
+\VAR{ items.name } & xxxxxxxx & \\
+\hline
+\end{tabularx}
+\begin{tabularx}{\textwidth}{|l|X|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    & & \multicolumn{15}{c|}{} \\
+    \textit{ID} & \textit{Topic} & \multicolumn{15}{c|}{\textit{Sessions}} \\
+    \hline
+    \endhead
+\BLOCK{ for key, item in items recursive }
+\BLOCK{ if item.children }
+    & \multicolumn{16}{c|}{} \\
+    1 & \multicolumn{1}{l}{\textbf{\VAR{key}}} & \multicolumn{15}{c|}{} \\
+    \hline
+\VAR{ loop(item) }
+\BLOCK{ else }
+    1.1 & \VAR{key}
+    & & & & & & & & & & & & & & & \\ \hline
+\BLOCK{ endif }
+\BLOCK{ endfor }
+\end{tabularx}
+\end{document}
