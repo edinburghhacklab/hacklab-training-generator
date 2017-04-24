@@ -1,6 +1,7 @@
 \documentclass[a5paper]{article}
 \usepackage[top=1cm,left=1cm,right=1cm,bottom=1.8cm]{geometry}
-\usepackage{tabularx}
+\usepackage{ltablex}
+\keepXColumns
 \renewcommand{\familydefault}{phv}
 \begin{document}
 \noindent
@@ -13,13 +14,13 @@
 CNC Mill & xxxxxxxx & \\
 \hline
 \end{tabularx}
-\\[2ex]
 \begin{tabularx}{\textwidth}{|l|X|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
     \hline
     & & \multicolumn{15}{c|}{} \\
     \textit{ID} & \textit{Topic} & \multicolumn{15}{c|}{\textit{Sessions}} \\
     \hline
     & \multicolumn{16}{c|}{} \\
+    \endhead
     1 & \multicolumn{1}{l}{\textbf{Safety}} & \multicolumn{15}{c|}{} \\
     \hline
     1.1 & Awareness of risks
