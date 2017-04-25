@@ -1,43 +1,76 @@
 import jinja2
-import os
 from jinja2 import Template
+import mistune
+import os
 
-class Item(object):
-
-    def __init__(self, name):
+class Item:
+    def __init__(self, name, level):
         self.name = name
-        self.items = {}
-        self.children = True
+        self.level = level
+        self.items = []
+        self.children = False
 
     def __iter__(self):
-        return iter(self.items.items())
+        return iter(self.items)
 
-    def add(self, key, item):
-        self.items[key] = item
+    def add(self, item):
+        self.items.append(item)
+        self.children = True
         return item
 
     def __getitem__(self, item):
         return self.items[item]
 
-    def __getattr__(self, attr):
-        try:
-            return self.items[attr]
-        except KeyError:
-            raise AttributeError(attr)
+class TreeRenderer(mistune.Renderer):
+    def reset_tree(self):
+        self.tree = Item('root', 0)
+        self.node_stack = [self.tree]
+        self.level = 0
 
-    def __str__(self):
-        return "<Item '%s'>" % self.name
+    def add_node(self, text, level):
+        new_node = Item(text, level)
+        self.node_stack[-1].add(new_node)
+        self.node_stack.append(new_node)
+        self.level = level
 
-items = Item('CNC Mill')
-safety = items.add('Safety', Item('safety'))
-safety.add('Awareness of risks', {})
-safety.add('Safety features', {})
-safety.add('Use of PPE', {})
-basics = items.add('Basics', Item('basics'))
-basics.add('Turning on', {})
-basics.add('Homing', {})
-basics.add('Overrides', {})
-basics.add('etc.', {})
+    def header(self, text, level, raw=None):
+        #print('Got header: {} level: {}'.format(text, str(level)))
+        if level == self.level + 1:
+            # one level deeper: add new node below current one
+            self.add_node(text, level)
+        elif level == self.level:
+            self.node_stack.pop()
+            self.add_node(text, level)
+        elif level <= self.level:
+            # move up to appropriate parent and add new node there
+            while level <= self.level:
+                self.node_stack.pop()
+                self.level = self.node_stack[-1].level
+            self.add_node(text, level)
+        else:
+            # throw error that new header skips a level
+            print('error error error')
+
+        return text
+
+    def list_item(self, text):
+        #print("Got list item: {}".format(text))
+        return text
+
+
+def walk(item, level):
+    print("\t" * level + item.name)
+    for i in item:
+        walk(i, level + 1)
+
+with open('syllabus.md') as f:
+    s = f.read()
+
+tree = TreeRenderer()
+md = mistune.Markdown(renderer=tree)
+tree.reset_tree()
+md.parse(s)
+#walk(tree.tree, 0)
 
 
 latex_jinja_env = jinja2.Environment(
@@ -54,4 +87,4 @@ latex_jinja_env = jinja2.Environment(
 	loader = jinja2.FileSystemLoader(os.path.abspath('.'))
 )
 template = latex_jinja_env.get_template('training-card-template.tex')
-print(template.render(items = items))
+print(template.render(items = tree.tree[0]))

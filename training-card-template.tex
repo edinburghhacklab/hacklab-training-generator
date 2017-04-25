@@ -20,15 +20,17 @@
     \textit{ID} & \textit{Topic} & \multicolumn{15}{c|}{\textit{Sessions}} \\
     \hline
     \endhead
-\BLOCK{ for key, item in items recursive }
-\BLOCK{ if item.children }
+\BLOCK{ for item in items recursive }
+\BLOCK{ if item.level == 2 }
     & \multicolumn{16}{c|}{} \\
-    1 & \multicolumn{1}{l}{\textbf{\VAR{key}}} & \multicolumn{15}{c|}{} \\
+    1 & \multicolumn{1}{l}{\textbf{\VAR{item.name}}} & \multicolumn{15}{c|}{} \\
     \hline
-\VAR{ loop(item) }
 \BLOCK{ else }
-    1.1 & \VAR{key}
+    1.1 & \VAR{item.name}
     & & & & & & & & & & & & & & & \\ \hline
+\BLOCK{ endif }
+\BLOCK{ if item.children }
+\VAR{ loop(item) }
 \BLOCK{ endif }
 \BLOCK{ endfor }
 \end{tabularx}
