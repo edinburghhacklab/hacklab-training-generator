@@ -2,6 +2,7 @@ import jinja2
 from jinja2 import Template
 import mistune
 import os
+import subprocess
 
 class Item:
     def __init__(self, name, level):
@@ -63,6 +64,9 @@ def walk(item, level):
     for i in item:
         walk(i, level + 1)
 
+def get_git_version():
+    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip().decode('ascii')
+
 with open('syllabus.md') as f:
     s = f.read()
 
@@ -87,4 +91,4 @@ latex_jinja_env = jinja2.Environment(
 	loader = jinja2.FileSystemLoader(os.path.abspath('.'))
 )
 template = latex_jinja_env.get_template('training-card-template.tex')
-print(template.render(items = tree.tree[0]))
+print(template.render(items = tree.tree[0], version = get_git_version()))
