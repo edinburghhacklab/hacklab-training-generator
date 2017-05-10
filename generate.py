@@ -58,6 +58,9 @@ class TreeRenderer(mistune.Renderer):
         #print("Got list item: {}".format(text))
         return text
 
+    def text(self, text):
+        return text.replace("&", "\&")
+
 
 def walk(item, level):
     print("\t" * level + item.name)
