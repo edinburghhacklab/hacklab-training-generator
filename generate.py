@@ -38,21 +38,22 @@ class TreeRenderer(mistune.Renderer):
 
     def header(self, text, level, raw=None):
         #print('Got header: {} level: {}'.format(text, str(level)))
-        if level == self.level + 1:
-            # one level deeper: add new node below current one
-            self.add_node(text, level)
-        elif level == self.level:
-            self.node_stack.pop()
-            self.add_node(text, level)
-        elif level <= self.level:
-            # move up to appropriate parent and add new node there
-            while level <= self.level:
+        if not text in ["Training", "Evaluation"]:
+            if level == self.level + 1:
+                # one level deeper: add new node below current one
+                self.add_node(text, level)
+            elif level == self.level:
                 self.node_stack.pop()
-                self.level = self.node_stack[-1].level
-            self.add_node(text, level)
-        else:
-            # throw error that new header skips a level
-            print('error error error')
+                self.add_node(text, level)
+            elif level <= self.level:
+                # move up to appropriate parent and add new node there
+                while level <= self.level:
+                    self.node_stack.pop()
+                    self.level = self.node_stack[-1].level
+                self.add_node(text, level)
+            else:
+                # throw error that new header skips a level
+                print('error error error')
 
         return text
 
