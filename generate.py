@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import jinja2
 from jinja2 import Template
 import mistune
