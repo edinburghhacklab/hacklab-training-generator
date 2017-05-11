@@ -13,6 +13,7 @@ class Item:
         self.items = []
         self.section_number = section
         self.section_string = parent_section + str(section) + "."
+        self.indent = max(level - 3, 0)
         self.children = False
 
     def __iter__(self):
