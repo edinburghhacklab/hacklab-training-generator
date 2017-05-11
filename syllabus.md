@@ -10,13 +10,16 @@
  * Parts flying on workholding failure
  * Sharp edges on stock, workpieces and chips
  * Hot tools and workpieces after cutting
+
 #### Additional risks of CNC machining
  * Unexpected movements
  * Crashes due to misplanned programs
+
 ### Use of safety measures
 #### Safety features of the machine
  * Emergency stop button
  * Protective cover
+
 #### Clothing and use of PPE
  * Safety goggles
  * Gloves
@@ -43,17 +46,21 @@ Trainee must be observed to routinely use safe working practices when working wi
  * Switch on control box
  * Start up software
  * Release emergency stop switch
+
 ### Homing
  * What the homing buttons will do
  * When it’s safe to use each
+
 ### Feed & spindle override knobs
  * Be aware of sensitivity
  * Use gently
+
 ### Loading and unloading tools
  * Awareness of machine tool change cycle
  * Tools required & appropriate torque
  * Cleanliness of taper surfaces
  * Tapping with wood block to free tapers
+
 ### Setup and control of coolant system
 ### Cleaning machine area before and after use
 
@@ -74,6 +81,7 @@ The trainee must be able to set up the machine correctly without assistance or p
 ### Jogging
  * Continuous mode
  * Step mode
+
 ### MDI
 ### Basic G-codes
 
@@ -147,6 +155,7 @@ The trainee must be able to, without prompting:
  * Face mills
  * Fly cutters
  * Roughing vs finishing tools
+
 ### Use of collets
 ### Entering new tools
  * Entering tool details
@@ -233,6 +242,7 @@ They should also be able to find and identify problems with a provided F360 proj
  * Cover closed
  * Override knobs set appropriately
  * Operator ready on e-stop switch
+
 ### Use of start, pause, stop and rewind controls
 ### Use of block search facility to start mid-program
 
