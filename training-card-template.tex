@@ -23,10 +23,10 @@
 \BLOCK{ for item in items recursive }
 \BLOCK{ if item.level == 2 }
     & \multicolumn{16}{c|}{} \\
-    1 & \multicolumn{1}{l}{\textbf{\VAR{item.name}}} & \multicolumn{15}{c|}{} \\
+    \VAR{item.section()} & \multicolumn{1}{l}{\textbf{\VAR{item.name}}} & \multicolumn{15}{c|}{} \\
     \hline
 \BLOCK{ else }
-    1.1 & \VAR{item.name}
+    \VAR{item.section()} & \VAR{item.name}
     & & & & & & & & & & & & & & & \\ \hline
 \BLOCK{ endif }
 \BLOCK{ if item.children }

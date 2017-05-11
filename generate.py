@@ -7,10 +7,12 @@ import os
 import subprocess
 
 class Item:
-    def __init__(self, name, level):
+    def __init__(self, name, level, section, parent_section):
         self.name = name
         self.level = level
         self.items = []
+        self.section_number = section
+        self.section_string = parent_section + str(section) + "."
         self.children = False
 
     def __iter__(self):
@@ -24,15 +26,20 @@ class Item:
     def __getitem__(self, item):
         return self.items[item]
 
+    def section(self):
+        # Trim leading chars (since everything is under root&title header) and trailing "."
+        return self.section_string[4:-1]
+
 class TreeRenderer(mistune.Renderer):
     def reset_tree(self):
-        self.tree = Item('root', 0)
+        self.tree = Item('root', 0, 0, "")
         self.node_stack = [self.tree]
         self.level = 0
 
-    def add_node(self, text, level):
-        new_node = Item(text, level)
-        self.node_stack[-1].add(new_node)
+    def add_node(self, text, level, section):
+        parent = self.node_stack[-1]
+        new_node = Item(text, level, section, parent.section_string)
+        parent.add(new_node)
         self.node_stack.append(new_node)
         self.level = level
 
@@ -41,16 +48,17 @@ class TreeRenderer(mistune.Renderer):
         if not text in ["Training", "Evaluation"]:
             if level == self.level + 1:
                 # one level deeper: add new node below current one
-                self.add_node(text, level)
+                self.add_node(text, level, 1)
             elif level == self.level:
-                self.node_stack.pop()
-                self.add_node(text, level)
+                section = self.node_stack.pop().section_number + 1
+                self.add_node(text, level, section)
             elif level <= self.level:
                 # move up to appropriate parent and add new node there
+                section = 0
                 while level <= self.level:
-                    self.node_stack.pop()
+                    section = self.node_stack.pop().section_number + 1
                     self.level = self.node_stack[-1].level
-                self.add_node(text, level)
+                self.add_node(text, level, section)
             else:
                 # throw error that new header skips a level
                 print('error error error')
