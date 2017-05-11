@@ -45,7 +45,6 @@ class TreeRenderer(mistune.Renderer):
         self.level = level
 
     def header(self, text, level, raw=None):
-        #print('Got header: {} level: {}'.format(text, str(level)))
         if not text in ["Training", "Evaluation"]:
             if level == self.level + 1:
                 # one level deeper: add new node below current one
@@ -64,10 +63,6 @@ class TreeRenderer(mistune.Renderer):
                 # throw error that new header skips a level
                 print('error error error')
 
-        return text
-
-    def list_item(self, text):
-        #print("Got list item: {}".format(text))
         return text
 
     def text(self, text):
@@ -89,8 +84,6 @@ tree = TreeRenderer()
 md = mistune.Markdown(renderer=tree)
 tree.reset_tree()
 md.parse(s)
-#walk(tree.tree, 0)
-
 
 latex_jinja_env = jinja2.Environment(
 	block_start_string = '\BLOCK{',
