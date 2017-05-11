@@ -26,7 +26,7 @@
     \VAR{item.section()} & \multicolumn{1}{l}{\textbf{\VAR{item.name}}} & \multicolumn{15}{c|}{} \\
     \hline
 \BLOCK{ else }
-    \VAR{item.section()} & \hspace{\VAR{item.indent * 5}mm} \VAR{item.name}
+    \VAR{item.section()} & \BLOCK{ if item.indent > 0 }\hspace{\VAR{item.indent * 5}mm}\BLOCK{ endif } \VAR{item.name}
     & & & & & & & & & & & & & & & \\ \hline
 \BLOCK{ endif }
 \BLOCK{ if item.children }
