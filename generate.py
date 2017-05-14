@@ -99,4 +99,4 @@ latex_jinja_env = jinja2.Environment(
 	loader = jinja2.FileSystemLoader(os.path.abspath('.'))
 )
 template = latex_jinja_env.get_template('training-card-template.tex')
-print(template.render(items = tree.tree[0], version = get_git_version()))
+print(template.render(items = tree.tree[0], version = get_git_version(), sessions=15))
