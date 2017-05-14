@@ -23,8 +23,8 @@
     \endhead
 \BLOCK{ for item in items recursive }
 \BLOCK{ if item.level == 2 }
-    & \multicolumn{\VAR{sessions + 1}}{c|}{} \\
-    \VAR{item.section()} & \multicolumn{1}{l}{\textbf{\VAR{item.name}}} & \multicolumn{\VAR{sessions}}{c|}{} \\
+    & & \multicolumn{\VAR{sessions}}{c|}{} \\
+    \VAR{item.section()} & \multicolumn{1}{l|}{\textbf{\VAR{item.name}}} & \multicolumn{\VAR{sessions}}{c|}{} \\
     \hline
 \BLOCK{ else }
     \VAR{item.section()} &
