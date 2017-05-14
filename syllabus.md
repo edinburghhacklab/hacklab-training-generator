@@ -2,7 +2,7 @@
 
 ## Safety
 ### Awareness of risks
-#### Risks inherently associated with machining
+* Risks inherently associated with machining
  * Direct cutting risks (including from non-spinning tools!)
  * Hair, clothes, etc tangling in spindle/tool
  * Crush risks from moving axes
@@ -11,7 +11,7 @@
  * Sharp edges on stock, workpieces and chips
  * Hot tools and workpieces after cutting
 
-#### Additional risks of CNC machining
+* Additional risks of CNC machining
  * Unexpected movements
  * Crashes due to misplanned programs
 
@@ -100,7 +100,7 @@ The trainee should be able to write G-code for simple designs, e.g. cutting a re
 ## Workholding
 
 ### Understanding of the need for rigid workholding
-### Awareness of different workholding equipment available
+### Selection of workholding equipment
 #### T-nuts
 #### Vice
 #### Parallels
@@ -120,7 +120,7 @@ The trainee must be able to choose an appropriate workholding solution for each 
 
 ## Offsets
 
-### Relationship between machine co-ordinates, work offsets & tool offsets
+### Theory of co-ordinate systems and offsets
 ### Squaring using a dial gauge
 ### Setting work offsets
 #### Bare tools
@@ -146,7 +146,7 @@ The trainee must be able to, without prompting:
 
 ## Tooling
 
-### Awareness of different types of tooling and their uses
+### Selection of tooling
  * End mills
  * Ball mills
  * Chamfer mills
@@ -171,7 +171,7 @@ Next, demonstrate the installation of a tool in a toolholder, including selectio
 
 The trainee must be able to prepare a new tool for use, including correctly mounting it in a suitable collet and tool holder, entering tool details and setting the tool offset.
 
-## Job planning
+## Job planning & toolpath creation
 
 ### Job planning considerations
  * Think about machining approach before doing detailed design.
@@ -180,16 +180,6 @@ The trainee must be able to prepare a new tool for use, including correctly moun
  * How many setups needed? How will each be held and offsetted?
  * What tools required?
  * Once these points are known, detailed design can be done within machine capabilities.
-
-### Training
-
-These considerations should be introduced as a briefing with some examples - this might be worth making a presentation for. This is probably best done after the trainee has gone through a basic sample project, but before they start planning more complex jobs.
-
-### Evaluation
-
-The trainee must be able to come up with a viable design and machining plan for a moderately straightforward job. They do not need to get everything right first time, but if they encounter problems they should be able to recognise and solve them independently within a couple of iterations.
-
-## Toolpath creation
 
 ### Basics of modelling and CAM setup in F360
 ### Use of key operations
@@ -207,6 +197,8 @@ The trainee must be able to come up with a viable design and machining plan for 
 
 ### Training
 
+Job planning considerations should be introduced as a briefing with some examples - this might be worth making a presentation for. This is probably best done after the trainee has gone through a basic sample project, but before they start planning more complex jobs.
+
 We will need 3 sample projects written up with corresponding F360 files. Each project will comprise a brief specification for a part and then some guidance on how to prepare the CAD/CAM for that part in F360.
 
 The first project will be very simple and all steps to complete it will be described in detail.
@@ -220,6 +212,8 @@ The instructor should work with the trainee as needed to introduce and demonstra
 For each project, we will have a reference implementation that can be used by the instructor as a reference example, or for the trainee to compare to their solution after completing the exercise.
 
 ### Evaluation
+
+The trainee must be able to come up with a viable design and machining plan for a moderately straightforward job. They do not need to get everything right first time, but if they encounter problems they should be able to recognise and solve them independently within a couple of iterations.
 
 The trainee must be generally competent with the main features of the F360 workflow, and able to complete CAD/CAM of a moderately straightforward job themselves.
 
@@ -245,20 +239,7 @@ They should also be able to find and identify problems with a provided F360 proj
 
 ### Use of start, pause, stop and rewind controls
 ### Use of block search facility to start mid-program
-
-### Training
-
-Start with a demonstration of running a job. Then move on to letting the trainee run the job, being ready to prompt & assist them.
-
-A copy of the checklist should be available to the trainee for revision, but the aim should be for them not to need it. A mnemonic acronym for the checklist might be useful if we can come up with one that’s not too long.
-
-### Evaluation
-
-The trainee should be able to run a job without prompting or assistance.
-
-## Watching for problems
-
-### Recognition of good machining
+### Watching for problems
  * Reasonable depth/width of cuts
  * Sensible feed rates
  * Good chip forming
@@ -267,20 +248,7 @@ The trainee should be able to run a job without prompting or assistance.
  * Tool not obstructed by buildup of chips
  * Program not doing anything unexpected or surprising
 
-### Training
-
-We will need to have some jobs prepared with bad parameters. Not too far off to be dangerous, but enough to sound bad or result in a poor finish. We will demonstrate each of these to trainees, then show them how to correct the problem.
-
-### Evaluation
-
-The trainee must recognise when a job is failing to satisfy any of the good machining criteria listed above, and use the emergency stop where necessary.
-
-It’s likely that the trainee will encounter some of these problems themselves during their training. If so there will be an opportunity to see if they correct them without prompting.
-
-If such an opportunity doesn’t arise, the trainee can be tested by presenting them with a running job and checking if they can identify and correct a deliberate problem with it.
-
-## Recovery after emergency stop
-
+### Recovery after emergency stop
 * Can work & tool be removed without powering up machine?
 * Be aware both may be hot.
 * On releasing e-stop, machine will need to home before it can be jogged.
@@ -289,8 +257,22 @@ If such an opportunity doesn’t arise, the trainee can be tested by presenting 
 
 ### Training
 
+Start with a demonstration of running a job. Then move on to letting the trainee run the job, being ready to prompt & assist them.
+
+A copy of the checklist should be available to the trainee for revision, but the aim should be for them not to need it. A mnemonic acronym for the checklist might be useful if we can come up with one that’s not too long.
+
+We will need to have some jobs prepared with bad parameters. Not too far off to be dangerous, but enough to sound bad or result in a poor finish. We will demonstrate each of these to trainees, then show them how to correct the problem.
+
 Demonstrate use of the emergency stop during a running job. Arrange this such that homing order is important - e.g. with tool down whilst machining a pocket. Show how to bring the machine safely back to a ready state. Have the trainee repeat the exercise for a different scenario.
 
 ### Evaluation
+
+The trainee should be able to run a job without prompting or assistance.
+
+The trainee must recognise when a job is failing to satisfy any of the good machining criteria listed above, and use the emergency stop where necessary.
+
+It’s likely that the trainee will encounter some of these problems themselves during their training. If so there will be an opportunity to see if they correct them without prompting.
+
+If such an opportunity doesn’t arise, the trainee can be tested by presenting them with a running job and checking if they can identify and correct a deliberate problem with it.
 
 During one of a trainee’s jobs, press the emergency stop without warning. They must be able to safely bring the machine back to a ready state and continue the job.
