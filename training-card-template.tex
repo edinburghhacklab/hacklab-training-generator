@@ -1,6 +1,7 @@
 \documentclass[a5paper]{article}
 \usepackage[top=1cm,left=1cm,right=1cm,bottom=1.8cm]{geometry}
 \usepackage{ltablex}
+\usepackage{colortbl}
 \keepXColumns
 \renewcommand{\familydefault}{phv}
 \begin{document}
@@ -17,7 +18,7 @@
 \begin{tabularx}{\textwidth}{|l|X|\VAR{"c|" * sessions}}
     \hline
     & & \multicolumn{\VAR{sessions}}{c|}{} \\
-    \textit{ID} & \textit{Topic} & \multicolumn{\VAR{sessions}}{c|}{\textit{Sessions}} \\
+    \textit{ID} & \textit{Topic} & \multicolumn{\VAR{sessions}}{c|}{\textit{Progress}} \\
     \hline
     \endhead
 \BLOCK{ for item in items recursive }
@@ -26,8 +27,17 @@
     \VAR{item.section()} & \multicolumn{1}{l}{\textbf{\VAR{item.name}}} & \multicolumn{\VAR{sessions}}{c|}{} \\
     \hline
 \BLOCK{ else }
-    \VAR{item.section()} & \BLOCK{ if item.indent > 0 }\hspace{\VAR{item.indent * 5}mm}\BLOCK{ endif } \VAR{item.name}
-    \VAR{"& " * sessions}\\ \hline
+    \VAR{item.section()} &
+    \BLOCK{ if item.indent > 0 }
+        \hspace{\VAR{item.indent * 5}mm}
+    \BLOCK{ endif }
+    \VAR{item.name}
+    \BLOCK{ if item.name.endswith(":") }
+        & \multicolumn{\VAR{sessions}}{c|}{\cellcolor[gray]{.8}}
+    \BLOCK{ else }
+        \VAR{"& " * sessions}
+    \BLOCK{ endif }
+\\ \hline
 \BLOCK{ endif }
 \BLOCK{ if item.children }
 \VAR{ loop(item) }
