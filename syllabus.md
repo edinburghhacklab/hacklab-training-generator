@@ -10,17 +10,15 @@
  * Parts flying on workholding failure
  * Sharp edges on stock, workpieces and chips
  * Hot tools and workpieces after cutting
-
 * Additional risks of CNC machining
  * Unexpected movements
  * Crashes due to misplanned programs
 
 ### Use of safety measures
-#### Safety features of the machine
+* Safety features of the machine
  * Emergency stop button
  * Protective cover
-
-#### Clothing and use of PPE
+* Clothing and use of PPE
  * Safety goggles
  * Gloves
  * Ear protectors for noisy jobs
@@ -38,11 +36,13 @@ During subsequent training, be ready to prompt if any safety measures or conside
 
 ### Evaluation
 
-Trainee must be observed to routinely use safe working practices when working without prompting or reminding.
+The trainee must be able to identify risks associated with the machine and the safety measures that should be used.
+
+The trainee must be observed to routinely use safe working practices when working without prompting or reminding.
 
 ## Basics
 
-### Turning on
+### Turning on & startup
  * Switch on control box
  * Start up software
  * Release emergency stop switch
@@ -99,8 +99,8 @@ The trainee should be able to write G-code for simple designs, e.g. cutting a re
 
 ## Workholding
 
-### Understanding of the need for rigid workholding
-### Selection of workholding equipment
+### Understanding workholding requirements
+### Use of workholding equipment:
 #### T-nuts
 #### Vice
 #### Parallels
@@ -122,7 +122,7 @@ The trainee must be able to choose an appropriate workholding solution for each 
 
 ### Theory of co-ordinate systems and offsets
 ### Squaring using a dial gauge
-### Setting work offsets
+### Setting work offsets:
 #### Bare tools
 #### Slip blocks
 #### Edge finder
@@ -146,15 +146,15 @@ The trainee must be able to, without prompting:
 
 ## Tooling
 
-### Selection of tooling
- * End mills
- * Ball mills
- * Chamfer mills
- * Spot drills
- * Drill bits
- * Face mills
- * Fly cutters
- * Roughing vs finishing tools
+### Use of tooling:
+#### End mills
+#### Ball mills
+#### Chamfer mills
+#### Spot drills
+#### Drill bits
+#### Face mills
+#### Fly cutters
+#### Roughing vs finishing tools
 
 ### Use of collets
 ### Entering new tools
@@ -169,6 +169,8 @@ Next, demonstrate the installation of a tool in a toolholder, including selectio
 
 ### Evaluation
 
+The trainee must demonstrate awareness of the most commonly used types of tooling and and when it is appropriate to use each.
+
 The trainee must be able to prepare a new tool for use, including correctly mounting it in a suitable collet and tool holder, entering tool details and setting the tool offset.
 
 ## Job planning & toolpath creation
@@ -182,7 +184,7 @@ The trainee must be able to prepare a new tool for use, including correctly moun
  * Once these points are known, detailed design can be done within machine capabilities.
 
 ### Basics of modelling and CAM setup in F360
-### Use of key operations
+### Use of key operations:
 #### 3D adaptive clearing
 #### 2D facing
 #### 2D contouring
