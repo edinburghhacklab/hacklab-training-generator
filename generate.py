@@ -2,6 +2,7 @@
 
 import jinja2
 from jinja2 import Template
+from latex_renderer import LatexRenderer
 import mistune
 import os
 import subprocess
@@ -63,11 +64,10 @@ class TreeRenderer(mistune.Renderer):
                 # throw error that new header skips a level
                 print('error error error')
 
-        return text
+        return super(TreeRenderer, self).header(text, level, raw)
 
-    def text(self, text):
-        return text.replace("&", "\&")
-
+class Renderer(TreeRenderer, LatexRenderer):
+    pass
 
 def walk(item, level):
     print("\t" * level + item.name)
@@ -80,7 +80,7 @@ def get_git_version():
 with open('syllabus.md') as f:
     s = f.read()
 
-tree = TreeRenderer()
+tree = Renderer()
 md = mistune.Markdown(renderer=tree)
 tree.reset_tree()
 md.parse(s)
@@ -98,5 +98,10 @@ latex_jinja_env = jinja2.Environment(
 	autoescape = False,
 	loader = jinja2.FileSystemLoader(os.path.abspath('.'))
 )
-template = latex_jinja_env.get_template('training-card-template.tex')
-print(template.render(items = tree.tree[0], version = get_git_version(), sessions=8))
+training_card_template = latex_jinja_env.get_template('training-card-template.tex')
+with open('training-card.tex', 'w') as f:
+    f.write(training_card_template.render(items = tree.tree[0], version = get_git_version(), sessions=8))
+
+doc_template = latex_jinja_env.get_template('training-doc-template.tex')
+with open('training-doc.tex', 'w') as f:
+    f.write(doc_template.render(content = md(s), version = get_git_version()))
