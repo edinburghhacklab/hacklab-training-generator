@@ -104,4 +104,4 @@ with open('training-card.tex', 'w') as f:
 
 doc_template = latex_jinja_env.get_template('training-doc-template.tex')
 with open('training-doc.tex', 'w') as f:
-    f.write(doc_template.render(content = md(s), version = get_git_version()))
+    f.write(doc_template.render(content = md(s), title = tree.title, version = get_git_version()))

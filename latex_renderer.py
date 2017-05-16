@@ -14,10 +14,13 @@ class LatexRenderer(mistune.Renderer):
         return enclose('quotation', text)
 
     def header(self, text, level, raw=None):
-        if level < 4:
-            return '\\' + 'sub' * (level - 1) + 'section' + '{%s}\n' % (text)
+        if level == 1:
+            self.title = text
+            return ''
+        elif level < 5:
+            return '\\' + 'sub' * (level - 2) + 'section' + '{%s}\n' % (text)
         else:
-            return '\\' + 'sub' * (level - 4) + 'paragraph' + '{%s}\n' % (text)
+            return '\\' + 'sub' * (level - 5) + 'paragraph' + '{%s}\n' % (text)
 
     def list(self, body, ordered=True):
         return enclose('itemize', body)
