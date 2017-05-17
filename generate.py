@@ -74,34 +74,43 @@ def walk(item, level):
     for i in item:
         walk(i, level + 1)
 
-def get_git_version():
-    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip().decode('ascii')
+class SyllabusProcessor:
+    def __init__(self, path):
+        self.path = path
 
-with open('syllabus.md') as f:
-    s = f.read()
+    def generate(self):
+        with open(self.path + '/syllabus.md') as f:
+            s = f.read()
 
-tree = Renderer()
-md = mistune.Markdown(renderer=tree)
-tree.reset_tree()
-md.parse(s)
+        tree = Renderer()
+        md = mistune.Markdown(renderer=tree)
+        tree.reset_tree()
+        md.parse(s)
 
-latex_jinja_env = jinja2.Environment(
-	block_start_string = '\BLOCK{',
-	block_end_string = '}',
-	variable_start_string = '\VAR{',
-	variable_end_string = '}',
-	comment_start_string = '\#{',
-	comment_end_string = '}',
-	line_statement_prefix = '%%',
-	line_comment_prefix = '%#',
-	trim_blocks = True,
-	autoescape = False,
-	loader = jinja2.FileSystemLoader(os.path.abspath('.'))
-)
-training_card_template = latex_jinja_env.get_template('training-card-template.tex')
-with open('training-card.tex', 'w') as f:
-    f.write(training_card_template.render(items = tree.tree[0], version = get_git_version(), sessions=8))
+        latex_jinja_env = jinja2.Environment(
+            block_start_string = '\BLOCK{',
+            block_end_string = '}',
+            variable_start_string = '\VAR{',
+            variable_end_string = '}',
+            comment_start_string = '\#{',
+            comment_end_string = '}',
+            line_statement_prefix = '%%',
+            line_comment_prefix = '%#',
+            trim_blocks = True,
+            autoescape = False,
+            loader = jinja2.FileSystemLoader(os.path.abspath('.'))
+        )
+        training_card_template = latex_jinja_env.get_template('training-card-template.tex')
+        with open('training-card.tex', 'w') as f:
+            f.write(training_card_template.render(items = tree.tree[0], version = self.get_git_version(), sessions=8))
 
-doc_template = latex_jinja_env.get_template('training-doc-template.tex')
-with open('training-doc.tex', 'w') as f:
-    f.write(doc_template.render(content = md(s), title = tree.title, version = get_git_version()))
+        doc_template = latex_jinja_env.get_template('training-doc-template.tex')
+        with open('training-doc.tex', 'w') as f:
+            f.write(doc_template.render(content = md(s), title = tree.title, version = self.get_git_version()))
+
+    def get_git_version(self):
+        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = self.path).strip().decode('ascii')
+
+if __name__ == "__main__":
+    sp = SyllabusProcessor('.')
+    sp.generate()
