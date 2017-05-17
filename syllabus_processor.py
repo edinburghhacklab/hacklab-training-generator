@@ -73,13 +73,23 @@ def walk(item, level):
     for i in item:
         walk(i, level + 1)
 
+class SyllabusResult:
+    def __init__(self, success, error='', card='', doc=''):
+        self.success = success
+        self.error = error
+        self.card = card
+        self.doc = doc
+
 class SyllabusProcessor:
     def __init__(self, path):
         self.path = path
 
     def generate(self):
-        with open(join(self.path, 'syllabus.md')) as f:
-            s = f.read()
+        try:
+            with open(join(self.path, 'syllabus.md')) as f:
+                s = f.read()
+        except IOError as e:
+            return SyllabusResult(success=False, error="I/O error({0}): {1}".format(e.errno, e.strerror))
 
         tree = Renderer()
         md = mistune.Markdown(renderer=tree)
@@ -100,12 +110,12 @@ class SyllabusProcessor:
             loader = jinja2.FileSystemLoader(os.path.abspath('.'))
         )
         training_card_template = latex_jinja_env.get_template('training-card-template.tex')
-        with open('training-card.tex', 'w') as f:
-            f.write(training_card_template.render(items = tree.tree[0], version = self.get_git_version(), sessions=8))
+        card = training_card_template.render(items = tree.tree[0], version = self.get_git_version(), sessions=8)
 
         doc_template = latex_jinja_env.get_template('training-doc-template.tex')
-        with open('training-doc.tex', 'w') as f:
-            f.write(doc_template.render(content = md(s), title = tree.title, version = self.get_git_version()))
+        doc = doc_template.render(content = md(s), title = tree.title, version = self.get_git_version())
+
+        return SyllabusResult(success=True, doc=doc, card=card)
 
     def get_git_version(self):
         return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = self.path).strip().decode('ascii')
