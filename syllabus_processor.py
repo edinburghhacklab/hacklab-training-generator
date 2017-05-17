@@ -3,6 +3,7 @@ from jinja2 import Template
 from latex_renderer import LatexRenderer
 import mistune
 import os
+from os.path import join
 import subprocess
 
 class Item:
@@ -77,7 +78,7 @@ class SyllabusProcessor:
         self.path = path
 
     def generate(self):
-        with open(self.path + '/syllabus.md') as f:
+        with open(join(self.path, 'syllabus.md')) as f:
             s = f.read()
 
         tree = Renderer()
