@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from syllabus_processor import SyllabusProcessor
+from syllabus_processor import SyllabusProcessor, SyllabusResult
 
 SYLLABUS_FILENAME = 'syllabus.md'
 
@@ -26,6 +26,32 @@ def generate(path):
 
     # TODO: pass this dict to jinja to build some HTML listing of syllabuses
     print(syllabuses)
+
+    make_dir("output")
+    save_docs("output", syllabuses)
+
+def make_dir(path):
+    try:
+        os.mkdir(path)
+    except FileExistsError:
+        pass
+
+def write_file(filename, data):
+    output = open(filename, 'w')
+    output.write(data)
+    output.close()
+
+def save_docs(path, syllabuses):
+    for key, value in syllabuses.items():
+        subpath = os.path.join(path, key)
+        make_dir(subpath)
+        if isinstance(value, dict):
+            save_docs(subpath, value)
+        elif isinstance(value, SyllabusResult):
+            doc = os.path.join(subpath, "syllabus.tex")
+            card = os.path.join(subpath, "training-card.tex")
+            write_file(doc, value.doc)
+            write_file(card, value.card)
 
 def nested_set(dic, keys, value):
     for key in keys[:-1]:
