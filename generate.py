@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import jinja2
 import os
 import subprocess
 from syllabus_processor import SyllabusProcessor
@@ -53,8 +54,11 @@ def generate(path):
             if result.success:
                 add_syllabus(result, relpath)
 
-    # TODO: pass this dict to jinja to build some HTML listing of syllabuses
     print(syllabuses)
+    env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.abspath('.')), extensions=['jinja2.ext.do'])
+    site_template = env.get_template('training-site.tmpl')
+    with open(os.path.join(WEBROOT, 'index.html'), 'w') as f:
+        f.write(site_template.render(syllabuses = syllabuses))
 
 def nested_set(dic, keys, value):
     for key in keys[:-1]:

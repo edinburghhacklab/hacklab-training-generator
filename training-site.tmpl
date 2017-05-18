@@ -1,0 +1,24 @@
+<html>
+<head>
+    <title>Edinburgh Hacklab Training Docs</title>
+</head>
+<body>
+    <h1>Edinburgh Hacklab Training Docs</h1>
+{%- set idxs = [] %}
+{%- for key, value in syllabuses.items() recursive %}
+    {%- set depth = idxs|length + 2 %}
+    <h{{depth}}>{{ key }}</h{{depth}}>
+    {%- if value.files %}
+    <ul>
+    {%- for file, filename in  value.files.items() %}
+        <li><a href="{{ filename }}">{{ file }}</a></li>
+    {%- endfor %}
+    </ul>
+    {%- else %}
+    {%- do idxs.append(loop.index) %}
+    {{ loop(value.items()) }}
+    {%- do idxs.pop() %}
+    {%- endif %}
+{%- endfor %}
+</body>
+</html>
