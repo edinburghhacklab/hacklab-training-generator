@@ -1,17 +1,47 @@
 #!/usr/bin/env python3
 
+import jinja2
 import os
-from syllabus_processor import SyllabusProcessor, SyllabusResult
+import subprocess
+from syllabus_processor import SyllabusProcessor
+from tempfile import NamedTemporaryFile
 
 SYLLABUS_FILENAME = 'syllabus.md'
+WEBROOT = './web'
 
 syllabuses = {}
 
+class Syllabus:
+    def __init__(self, name):
+        self.name = name
+        self.files = {}
+
 def add_syllabus(result, relpath):
     folders = splitpath(relpath)
+    s = Syllabus(folders[-1])
+    dest = os.path.join(WEBROOT, relpath)
+    os.makedirs(dest, exist_ok=True)
 
-    # TODO: store tex to temp files, compile to pdf, move to web dir & record resulting filenames in this dict instead
-    nested_set(syllabuses, folders, result)
+    training_card_filename = '{}-training-card.pdf'.format(folders[-1].replace(' ', '-'))
+    s.files[s.name + ' training card'] = os.path.join(relpath, training_card_filename)
+    compile_tex(result.card, os.path.join(dest, training_card_filename))
+
+    training_doc_filename = '{}-training-doc.pdf'.format(folders[-1].replace(' ', '-'))
+    s.files[s.name + ' training doc'] = os.path.join(relpath, training_doc_filename)
+    compile_tex(result.doc, os.path.join(dest, training_doc_filename))
+
+    nested_set(syllabuses, folders, s)
+
+def compile_tex(tex_string, destination_filename):
+    # TODO: create a whole temp directory so we can cleanup after pdflatex
+    with NamedTemporaryFile('w') as f:
+        f.write(tex_string)
+        f.flush()
+        print(f.name)
+        for i in range(5):
+            output = subprocess.check_output(['pdflatex', '-jobname='+os.path.splitext(destination_filename)[0], f.name])
+            if not 'Rerun LaTeX' in str(output):
+                break
 
 def generate(path):
     for root, dirs, files in os.walk(path):
@@ -24,34 +54,11 @@ def generate(path):
             if result.success:
                 add_syllabus(result, relpath)
 
-    # TODO: pass this dict to jinja to build some HTML listing of syllabuses
     print(syllabuses)
-
-    make_dir("output")
-    save_docs("output", syllabuses)
-
-def make_dir(path):
-    try:
-        os.mkdir(path)
-    except FileExistsError:
-        pass
-
-def write_file(filename, data):
-    output = open(filename, 'w')
-    output.write(data)
-    output.close()
-
-def save_docs(path, syllabuses):
-    for key, value in syllabuses.items():
-        subpath = os.path.join(path, key)
-        make_dir(subpath)
-        if isinstance(value, dict):
-            save_docs(subpath, value)
-        elif isinstance(value, SyllabusResult):
-            doc = os.path.join(subpath, "syllabus.tex")
-            card = os.path.join(subpath, "training-card.tex")
-            write_file(doc, value.doc)
-            write_file(card, value.card)
+    env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.abspath('.')), extensions=['jinja2.ext.do'])
+    site_template = env.get_template('training-site.tmpl')
+    with open(os.path.join(WEBROOT, 'index.html'), 'w') as f:
+        f.write(site_template.render(syllabuses = syllabuses))
 
 def nested_set(dic, keys, value):
     for key in keys[:-1]:

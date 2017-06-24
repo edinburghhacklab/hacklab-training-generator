@@ -109,10 +109,10 @@ class SyllabusProcessor:
             autoescape = False,
             loader = jinja2.FileSystemLoader(os.path.abspath('.'))
         )
-        training_card_template = latex_jinja_env.get_template('training-card-template.tex')
+        training_card_template = latex_jinja_env.get_template('training-card.tmpl')
         card = training_card_template.render(items = tree.tree[0], version = self.get_git_version(), sessions=8)
 
-        doc_template = latex_jinja_env.get_template('training-doc-template.tex')
+        doc_template = latex_jinja_env.get_template('training-doc.tmpl')
         doc = doc_template.render(content = md(s), title = tree.title, version = self.get_git_version())
 
         return SyllabusResult(success=True, doc=doc, card=card)
