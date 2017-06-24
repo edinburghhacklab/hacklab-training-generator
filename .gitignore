@@ -1,4 +1,6 @@
 *.aux
-*.pdf
 *.log
+*.pdf
+*.pyc
+*.swp
 *.tex
