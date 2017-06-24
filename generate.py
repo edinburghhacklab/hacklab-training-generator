@@ -37,7 +37,6 @@ def compile_tex(tex_string, destination_filename):
     with NamedTemporaryFile('w') as f:
         f.write(tex_string)
         f.flush()
-        print(f.name)
         for i in range(5):
             output = subprocess.check_output(['pdflatex', '-jobname='+os.path.splitext(destination_filename)[0], f.name])
             if not 'Rerun LaTeX' in str(output):
@@ -54,7 +53,6 @@ def generate(syallabus_dir, output_dir):
             if result.success:
                 add_syllabus(result, relpath, output_dir)
 
-    print(syllabuses)
     env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.abspath('.')), extensions=['jinja2.ext.do'])
     site_template = env.get_template('training-site.tmpl')
     with open(os.path.join(output_dir, 'index.html'), 'w') as f:
