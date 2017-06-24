@@ -118,7 +118,7 @@ class SyllabusProcessor:
         return SyllabusResult(success=True, doc=doc, card=card)
 
     def get_git_version(self):
-        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = self.path).strip().decode('ascii')
+        return subprocess.check_output(['git', 'log', '-n1', '--pretty=%h', os.path.abspath(self.path)], cwd = self.path).strip().decode('ascii')
 
 if __name__ == "__main__":
     sp = SyllabusProcessor('.')
