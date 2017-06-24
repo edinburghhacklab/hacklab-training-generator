@@ -4,10 +4,10 @@ import jinja2
 import os
 import subprocess
 from syllabus_processor import SyllabusProcessor
+import sys
 from tempfile import NamedTemporaryFile
 
 SYLLABUS_FILENAME = 'syllabus.md'
-WEBROOT = './web'
 
 syllabuses = {}
 
@@ -16,10 +16,10 @@ class Syllabus:
         self.name = name
         self.files = {}
 
-def add_syllabus(result, relpath):
+def add_syllabus(result, relpath, output_dir):
     folders = splitpath(relpath)
     s = Syllabus(folders[-1])
-    dest = os.path.join(WEBROOT, relpath)
+    dest = os.path.join(output_dir, relpath)
     os.makedirs(dest, exist_ok=True)
 
     training_card_filename = '{}-training-card.pdf'.format(folders[-1].replace(' ', '-'))
@@ -43,21 +43,21 @@ def compile_tex(tex_string, destination_filename):
             if not 'Rerun LaTeX' in str(output):
                 break
 
-def generate(path):
-    for root, dirs, files in os.walk(path):
-        relpath = os.path.relpath(root, path)
+def generate(syallabus_dir, output_dir):
+    for root, dirs, files in os.walk(syallabus_dir):
+        relpath = os.path.relpath(root, syallabus_dir)
         if SYLLABUS_FILENAME in files:
             dirs.clear()
 
             sp = SyllabusProcessor(root)
             result = sp.generate()
             if result.success:
-                add_syllabus(result, relpath)
+                add_syllabus(result, relpath, output_dir)
 
     print(syllabuses)
     env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.abspath('.')), extensions=['jinja2.ext.do'])
     site_template = env.get_template('training-site.tmpl')
-    with open(os.path.join(WEBROOT, 'index.html'), 'w') as f:
+    with open(os.path.join(output_dir, 'index.html'), 'w') as f:
         f.write(site_template.render(syllabuses = syllabuses))
 
 def nested_set(dic, keys, value):
@@ -79,4 +79,7 @@ def splitpath(path):
     return folders
 
 if __name__ == "__main__":
-    generate('../hacklab-training/syllabuses')
+    if len(sys.argv) < 3:
+        print("Usage: {} <syllabus_dir> <output_dir>".format(sys.argv[0]))
+        sys.exit()
+    generate(sys.argv[1], sys.argv[2])
