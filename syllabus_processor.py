@@ -74,11 +74,12 @@ def walk(item, level):
         walk(i, level + 1)
 
 class SyllabusResult:
-    def __init__(self, success, error='', card='', doc=''):
+    def __init__(self, success, error='', card='', doc='', version=''):
         self.success = success
         self.error = error
         self.card = card
         self.doc = doc
+        self.version = version
 
 class SyllabusProcessor:
     def __init__(self, path):
@@ -110,12 +111,13 @@ class SyllabusProcessor:
             loader = jinja2.FileSystemLoader(os.path.abspath('.'))
         )
         training_card_template = latex_jinja_env.get_template('training-card.tmpl')
-        card = training_card_template.render(items = tree.tree[0], version = self.get_git_version(), sessions=8)
+        version = self.get_git_version()
+        card = training_card_template.render(items = tree.tree[0], version = version, sessions=8)
 
         doc_template = latex_jinja_env.get_template('training-doc.tmpl')
         doc = doc_template.render(content = md(s), title = tree.title, version = self.get_git_version())
 
-        return SyllabusResult(success=True, doc=doc, card=card)
+        return SyllabusResult(success=True, doc=doc, card=card, version=version)
 
     def get_git_version(self):
         return subprocess.check_output(['git', 'log', '-n1', '--pretty=%h', os.path.abspath(self.path)], cwd = self.path).strip().decode('ascii')

@@ -31,6 +31,8 @@ def add_syllabus(result, relpath, output_dir):
     s.files[s.name + ' training doc'] = os.path.join(relpath, training_doc_filename)
     compile_tex(result.doc, os.path.join(dest, training_doc_filename))
 
+    s.version = result.version
+
     nested_set(syllabuses, folders, s)
 
 def compile_tex(tex_string, destination_filename):
