@@ -86,7 +86,7 @@ class SyllabusProcessor:
 
     def generate(self):
         try:
-            with open(join(self.path, 'syllabus.md')) as f:
+            with open(join(self.path, 'syllabus.md'), encoding='utf-8') as f:
                 s = f.read()
         except IOError as e:
             return SyllabusResult(success=False, error="I/O error({0}): {1}".format(e.errno, e.strerror))
