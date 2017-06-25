@@ -8,7 +8,10 @@ Generate training documentation from Markdown sources.
 
     jinja2
     mistune
+    pdflatex
     python3
+    texlive-latex-base
+    texlive-latex-extra
     
 ## Usage
 
