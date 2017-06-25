@@ -34,7 +34,7 @@ def add_syllabus(result, relpath, output_dir):
 
 def compile_tex(tex_string, destination_filename):
     # TODO: create a whole temp directory so we can cleanup after pdflatex
-    with NamedTemporaryFile('w') as f:
+    with NamedTemporaryFile('w', encoding='utf-8') as f:
         f.write(tex_string)
         f.flush()
         for i in range(5):
@@ -55,7 +55,7 @@ def generate(syallabus_dir, output_dir):
 
     env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.abspath('.')), extensions=['jinja2.ext.do'])
     site_template = env.get_template('training-site.tmpl')
-    with open(os.path.join(output_dir, 'index.html'), 'w') as f:
+    with open(os.path.join(output_dir, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(site_template.render(syllabuses = syllabuses))
 
 def nested_set(dic, keys, value):
