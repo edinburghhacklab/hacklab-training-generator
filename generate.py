@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from datetime import datetime
 import jinja2
 import os
 import subprocess
@@ -56,7 +57,7 @@ def generate(syallabus_dir, output_dir):
     env = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.abspath('.')), extensions=['jinja2.ext.do'])
     site_template = env.get_template('training-site.tmpl')
     with open(os.path.join(output_dir, 'index.html'), 'w', encoding='utf-8') as f:
-        f.write(site_template.render(syllabuses = syllabuses))
+        f.write(site_template.render(syllabuses = syllabuses, timestr = datetime.utcnow()))
 
 def nested_set(dic, keys, value):
     for key in keys[:-1]:
