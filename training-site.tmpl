@@ -9,7 +9,7 @@
     {%- set depth = idxs|length + 2 %}
     <h{{depth}}>{{ key }}</h{{depth}}>
     {%- if value.files %}
-    <p><small>Version: {{ value.version }} - {{ value.commit_date }}</small></p>
+    <p><small>Version: <a href="https://github.com/edinburghhacklab/hacklab-training/commit/{{ value.version }}">{{ value.version }}</a> - {{ value.commit_date }}</small></p>
     <ul>
     {%- for file, filename in  value.files.items() %}
         <li><a href="{{ filename }}">{{ file }}</a></li>
