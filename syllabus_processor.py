@@ -74,12 +74,13 @@ def walk(item, level):
         walk(i, level + 1)
 
 class SyllabusResult:
-    def __init__(self, success, error='', card='', doc='', version=''):
+    def __init__(self, success, error='', card='', doc='', version='', commit_date=''):
         self.success = success
         self.error = error
         self.card = card
         self.doc = doc
         self.version = version
+        self.commit_date = commit_date
 
 class SyllabusProcessor:
     def __init__(self, path):
@@ -112,12 +113,16 @@ class SyllabusProcessor:
         )
         training_card_template = latex_jinja_env.get_template('training-card.tmpl')
         version = self.get_git_version()
+        commit_date = self.get_git_date()
         card = training_card_template.render(items = tree.tree[0], version = version, sessions=8)
 
         doc_template = latex_jinja_env.get_template('training-doc.tmpl')
-        doc = doc_template.render(content = md(s), title = tree.title, version = self.get_git_version())
+        doc = doc_template.render(content = md(s), title = tree.title, version=version)
 
-        return SyllabusResult(success=True, doc=doc, card=card, version=version)
+        return SyllabusResult(success=True, doc=doc, card=card, version=version, commit_date=commit_date)
+
+    def get_git_date(self):
+        return subprocess.check_output(['git', 'log', '-n1', '--pretty=%ci', os.path.abspath(self.path)], cwd = self.path).strip().decode('ascii')
 
     def get_git_version(self):
         return subprocess.check_output(['git', 'log', '-n1', '--pretty=%h', os.path.abspath(self.path)], cwd = self.path).strip().decode('ascii')

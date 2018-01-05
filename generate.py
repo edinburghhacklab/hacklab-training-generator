@@ -32,6 +32,7 @@ def add_syllabus(result, relpath, output_dir):
     compile_tex(result.doc, os.path.join(dest, training_doc_filename))
 
     s.version = result.version
+    s.commit_date = result.commit_date
 
     nested_set(syllabuses, folders, s)
 
