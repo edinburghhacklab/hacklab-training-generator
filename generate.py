@@ -42,7 +42,20 @@ def compile_tex(tex_string, destination_filename):
         f.write(tex_string)
         f.flush()
         for i in range(5):
-            output = subprocess.check_output(['pdflatex', '-interaction=nonstopmode', '-jobname='+os.path.splitext(destination_filename)[0], f.name], timeout=5)
+            try:
+                output = subprocess.check_output(
+                    [
+                    'pdflatex',
+                    '-interaction=nonstopmode',
+                    '-output-directory=' + os.path.dirname(destination_filename),
+                    '-jobname=' + os.path.splitext(os.path.basename(destination_filename))[0],
+                    f.name
+                ],
+                timeout=5
+            )
+            except subprocess.CalledProcessError as e:
+                print(e.output.decode())
+                raise
             if not 'Rerun LaTeX' in str(output):
                 break
 
